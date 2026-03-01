@@ -1,0 +1,76 @@
+.app-container {
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  font-family: var(--ff-main);
+}
+
+.form-container {
+  background-color: #48639c;
+  color: snow;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  h1 {
+    font-size: 3rem;
+    line-height: 1;
+    text-shadow: 1px 1px 2px #0006;
+    box-shadow: 0px 2px #0006;
+    width: fit-content;
+  }
+
+  h2 {
+    text-shadow: 1px 1px 2px #0006;
+  }
+
+  input {
+    font-size: 1rem;
+    padding: 0.2rem;
+    border-radius: 0.4rem;
+    border: 2px solid #0002;
+    outline: none;
+
+    &:focus {
+      outline: 2px solid #f7996e;
+      border: 2px solid transparent;
+    }
+  }
+
+  .form-name-info {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .form-contact-info {
+    display: flex;
+    gap: 2rem;
+  }
+}
+
+.resume-container {
+  background-color: #e4e4e4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .resume-page {
+    background-color: snow;
+    box-shadow: 2px 2px 4px 1px #0003;
+    width: 100%;
+    max-width: 600px;
+    height: 90%;
+    padding: 2rem;
+  }
+}
+
+.theme-switch-btn {
+  position: absolute;
+  right: 0;
+
+  font-size: 2rem;
+  font-family: inherit;
+  padding: 0.4rem 1.5rem;
+  cursor: pointer;
+}

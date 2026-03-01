@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Bpmf+Huninn&display=swap');
+
+:root {
+  --ff-main: 'Bpmf Huninn';
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
