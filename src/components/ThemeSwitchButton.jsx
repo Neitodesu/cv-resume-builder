@@ -1,6 +1,9 @@
 function ThemeSwitchButton() {
+  function swap() {
+    window.print()
+  }
   return (
-    <button className="theme-switch-btn">Switch</button>
+    <button onClick={swap} className="theme-switch-btn">Save as PDF</button>
   )
 }
 

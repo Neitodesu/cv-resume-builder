@@ -17,13 +17,21 @@ function App() {
       location: '',
       date: '',
     },
-    skills: ['Pooping', 'Coding', 'Guitar', 'Automotive'],
+    workHistory: {
+      position: '',
+      startDate: '',
+      endDate: '',
+      company: '',
+      details: '',
+    },
+    skills: ['Coding', 'Guitar', 'Automotive', '3D Modeling'],
   })
 
   return (
     <div className='app-container'>
       <Form resumeData={resumeData} setResumeData={setResumeData} />
       <Resume resumeData={resumeData} />
+      <ThemeSwitchButton />
     </div>
   )
 }
