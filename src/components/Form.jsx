@@ -1,6 +1,10 @@
+import { useState } from 'react'
+import '../css/Form.css'
 import logo from '../assets/leaf-logo.svg'
 
 function Form({ resumeData, setResumeData }) {
+  const [skill, setSkill] = useState('');
+
   function handleInputChange(e) {
     setResumeData({
       ...resumeData,
@@ -26,6 +30,22 @@ function Form({ resumeData, setResumeData }) {
         [e.target.name]: e.target.value
       }
     }))
+  }
+
+  function handleSkillInput(e) {
+    setSkill(e.target.value)
+  }
+
+  function updateSkills() {
+    if (skill !== '' && resumeData.skills.length < 5) {
+      setResumeData(prev => ({
+        ...prev,
+        skills: [
+          ...prev.skills, skill
+        ]
+      }))
+      setSkill('')
+    }
   }
 
   return (
@@ -143,19 +163,22 @@ function Form({ resumeData, setResumeData }) {
               />
             </div>
           </div>
-          <div className='form-history-mid'>
+          <div className='form-history-mid flex-col1'>
             <p>Employment Date</p>
-            <input
-              type="date"
-              onChange={handleWorkHistoryInput}
-              name="startDate"
-            />
-            to
-            <input
-              type="date"
-              onChange={handleWorkHistoryInput}
-              name="endDate"
-            />
+            <div className='form-date-inputs flex-col1'>
+              <p>From</p>
+              <input
+                type="date"
+                onChange={handleWorkHistoryInput}
+                name="startDate"
+              />
+              <p>To (leave blank in currently working here)</p>
+              <input
+                type="date"
+                onChange={handleWorkHistoryInput}
+                name="endDate"
+              />
+            </div>
           </div>
           <div className='history-inputs flex-col1'>
             <p>Responsibilities</p>
@@ -169,10 +192,21 @@ function Form({ resumeData, setResumeData }) {
           </div>
         </div>
       </div>
-      <div>
+      <div className='form-skills-container flex-col1'>
         <h2>Skills</h2>
-        <p>Max 5</p>
-        <button>Add </button>
+        <div className='flex-col1'>
+          <p>Max 5</p>
+          <div className='flex-row'>
+            <input
+              type="text"
+              value={skill}
+              onChange={handleSkillInput}
+              onKeyDown={updateSkills}
+              placeholder="Add Skill"
+            />
+            <button onClick={updateSkills}>Add </button>
+          </div>
+        </div>
       </div>
     </div >
   )

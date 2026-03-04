@@ -24,7 +24,7 @@ function App() {
       company: '',
       details: '',
     },
-    skills: ['Coding', 'Guitar', 'Automotive', '3D Modeling'],
+    skills: [],
   })
 
   return (
