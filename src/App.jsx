@@ -8,6 +8,7 @@ function App() {
   const [resumeData, setResumeData] = useState({
     firstName: '',
     lastName: '',
+    title: '',
     email: '',
     phone: '',
     summary: '',

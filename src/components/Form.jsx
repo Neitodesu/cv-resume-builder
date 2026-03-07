@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { parseISO, format } from 'date-fns'
 import '../css/Form.css'
 import logo from '../assets/leaf-logo.svg'
 
@@ -10,6 +11,50 @@ function Form({ resumeData, setResumeData }) {
       ...resumeData,
       [e.target.name]: e.target.value,
     })
+  }
+
+  function formatEducationDates(e) {
+    const newParseDate = parseISO(e.target.value)
+    const newDate = format(newParseDate, 'MMM. dd, yyyy')
+
+    setResumeData(prev => ({
+      ...prev,
+      education: {
+        ...prev.education,
+        [e.target.name]: newDate
+      }
+    }))
+  }
+
+  function formatHistoryDates(e) {
+    if (e.target.value === '') {
+      setResumeData(prev => ({
+        ...prev,
+        workHistory: {
+          ...prev.workHistory,
+          [e.target.name]: 'MM/dd/yyyy'
+        }
+      }))
+    }
+    if (e.target.name === 'endDate') {
+      setResumeData(prev => ({
+        ...prev,
+        workHistory: {
+          ...prev.workHistory,
+          [e.target.name]: 'Present'
+        }
+      }))
+    }
+    const newParseDate = parseISO(e.target.value)
+    const newDate = format(newParseDate, 'MMM. dd, yyyy')
+
+    setResumeData(prev => ({
+      ...prev,
+      workHistory: {
+        ...prev.workHistory,
+        [e.target.name]: newDate
+      }
+    }))
   }
 
   function handleEducationInput(e) {
@@ -36,17 +81,38 @@ function Form({ resumeData, setResumeData }) {
     setSkill(e.target.value)
   }
 
-  function updateSkills() {
-    if (skill !== '' && resumeData.skills.length < 5) {
-      setResumeData(prev => ({
-        ...prev,
-        skills: [
-          ...prev.skills, skill
-        ]
-      }))
-      setSkill('')
+  function updateSkills(e) {
+    if (e.key === "Enter") {
+      if (skill !== '' && resumeData.skills.length < 5) {
+        setResumeData(prev => ({
+          ...prev,
+          skills: [
+            ...prev.skills, skill
+          ]
+        }))
+        setSkill('')
+      }
+    }
+    if (e.target.name === "addBtn") {
+      if (skill !== '' && resumeData.skills.length < 5) {
+        setResumeData(prev => ({
+          ...prev,
+          skills: [
+            ...prev.skills, skill
+          ]
+        }))
+        setSkill('')
+      }
     }
   }
+
+  function resetSkills() {
+    setResumeData(prev => ({
+      ...prev,
+      skills: []
+    }))
+  }
+
 
   return (
     <div className="form-container">
@@ -72,6 +138,13 @@ function Form({ resumeData, setResumeData }) {
               name="email"
               placeholder="fake123@fakeemail.com"
             />
+            <p>Title</p>
+            <input
+              type="text"
+              onChange={handleInputChange}
+              name="title"
+              placeholder="e.g. Full Stack Developer"
+            />
           </div>
           <div className='form-name flex-col1'>
             <p>Last Name</p>
@@ -86,7 +159,7 @@ function Form({ resumeData, setResumeData }) {
               type="text"
               onChange={handleInputChange}
               name="phone"
-              placeholder="(555)555-5555"
+              placeholder="(555)-555-5555"
             />
           </div>
         </div>
@@ -107,19 +180,19 @@ function Form({ resumeData, setResumeData }) {
           <div className='form-school flex-col1'>
             <p>Degree/Diploma</p>
             <select name="certificate" onChange={handleEducationInput}>
-              <option value={'default'}>Select Level</option>
+              <option value={'Select Level'}>Select Level</option>
               <option value={'GED or equivalent'}>GED or equivalent</option>
               <option value={'High School Diploma'}>High School Diploma</option>
               <option value={'Associate\'s Degree'}>Associate's Degree</option>
               <option value={'Bachelor\'s Degree'}>Bachelor's Degree</option>
               <option value={'Masters\'s Degree'}>Masters's Degree</option>
             </select>
-            <p>School Location</p>
+            <p>Graduation Date</p>
             <input
-              type="text"
-              onChange={handleEducationInput}
-              name="location"
-              placeholder="123 Univeristy Lane"
+              type="date"
+              onChange={formatEducationDates}
+              name="date"
+              placeholder="MM/DD/YYYY"
             />
           </div>
           <div className='form-school flex-col1'>
@@ -129,13 +202,6 @@ function Form({ resumeData, setResumeData }) {
               onChange={handleEducationInput}
               name="school"
               placeholder="ABC University"
-            />
-            <p>Graduation Date</p>
-            <input
-              type="text"
-              onChange={handleEducationInput}
-              name="date"
-              placeholder="MM/DD/YYYY"
             />
           </div>
         </div>
@@ -166,16 +232,16 @@ function Form({ resumeData, setResumeData }) {
           <div className='form-history-mid flex-col1'>
             <p>Employment Date</p>
             <div className='form-date-inputs flex-col1'>
-              <p>From</p>
+              <p>Start Date</p>
               <input
                 type="date"
-                onChange={handleWorkHistoryInput}
+                onChange={formatHistoryDates}
                 name="startDate"
               />
-              <p>To (leave blank in currently working here)</p>
+              <p>End Date</p>
               <input
                 type="date"
-                onChange={handleWorkHistoryInput}
+                onChange={formatHistoryDates}
                 name="endDate"
               />
             </div>
@@ -195,16 +261,18 @@ function Form({ resumeData, setResumeData }) {
       <div className='form-skills-container flex-col1'>
         <h2>Skills</h2>
         <div className='flex-col1'>
-          <p>Max 5</p>
+          <p>(Max 5)</p>
           <div className='flex-row'>
             <input
+              maxLength={20}
               type="text"
               value={skill}
               onChange={handleSkillInput}
               onKeyDown={updateSkills}
               placeholder="Add Skill"
             />
-            <button onClick={updateSkills}>Add </button>
+            <button name='addBtn' onClick={updateSkills}>Add </button>
+            <button onClick={resetSkills}>Reset </button>
           </div>
         </div>
       </div>
